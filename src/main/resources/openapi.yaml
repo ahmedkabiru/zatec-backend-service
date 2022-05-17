@@ -1,0 +1,192 @@
+openapi: 3.0.3
+info:
+  title: Zatec API
+  description: Zatec API Specification
+  version: 1.0.0
+  contact:
+    name: Kabiru Ahmed
+    email: Opeyemi.kabiru@yahoo.com
+tags:
+  -  {  name: "chuck" , description: "chuck operations" ,
+        externalDocs:{
+               description: "Find out more",
+               url: "https://api.chucknorris.io/jokes/categories"
+        }
+  }
+  -  {  name: "swapi" , description: "Swapi Operations",
+     externalDocs: {
+            description: "Find out more",
+            url: "https://swapi.dev/api/people"
+     }
+   }
+  -  { name: "search" , description: "Search Operations"}
+
+paths:
+    "/chuck/categories":
+      get:
+        summary: Get All Jokes Categories
+        description: Fetch all chuck Categories
+        operationId: getAllJokesCategories
+        tags:
+          - chuck
+        responses:
+          200:
+            $ref: "#/components/responses/CategoryResponse"
+
+    "/chuck/random":
+      get:
+        summary: Get Random Jokes by Category
+        description: Get Random Jokes
+        operationId: getRandomJokesByCategory
+        tags:
+          - chuck
+        parameters:
+          - in: query
+            name: category
+            required: true
+            schema:
+              type: string
+        responses:
+          200:
+            $ref: "#/components/responses/JokesResponse"
+
+    "/swapi/people":
+      get:
+        summary: Get All the Star Wars People
+        description: fetch all star wars people from https://swapi.dev/api/people/
+        operationId: getAllStarWarsPeople
+        tags:
+          - swapi
+        responses:
+          200:
+            $ref: "#/components/responses/PeopleResponse"
+
+    "/search":
+      get:
+        summary: Get Jokes or Star Wars Result
+        description: Search with either Jokes API or Star Wars API
+        operationId: getSearchResult
+        tags:
+          - search
+        parameters:
+          - in: query
+            name: query
+            required: true
+            schema:
+              type: string
+        responses:
+          200:
+            $ref: "#/components/responses/SearchResultResponse"
+
+components:
+  schemas:
+    CategoryResponse:
+      type: array
+      items:
+        type: string
+    SearchResultResponse:
+      type: object
+      properties:
+        metaData:
+          type: object
+          properties:
+            apiType:
+              type: string
+            apiUrl:
+              type: string
+        data:
+          type: object
+    Jokes:
+      type: object
+      properties:
+        categories:
+          type: array
+          items:
+            type: string
+        created_at:
+          type: string
+        icon_url:
+          type: string
+        id:
+          type: string
+        updated_at:
+          type: string
+        url:
+          type: string
+        value:
+          type: string
+
+    People:
+      type: object
+      properties:
+        name:
+          type: string
+        height:
+          type: string
+        mass:
+          type: string
+        hair_color:
+          type: string
+        skin_color:
+          type: string
+        eye_color:
+          type: string
+        birth_year:
+          type: string
+        gender:
+          type: string
+        homeworld:
+          type: string
+        films:
+          type: array
+          items:
+            type: string
+        species:
+           type: array
+           items:
+             type: string
+        vehicles:
+          type: array
+          items:
+            type: string
+        starships:
+          type: array
+          items:
+            type: string
+        created:
+          type: string
+        edited:
+          type: string
+        url:
+          type: string
+
+  responses:
+    CategoryResponse:
+      description: Jokes Category Response
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/CategoryResponse"
+    JokesResponse:
+      description: Jokes Response
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Jokes"
+    PeopleResponse:
+      description: People Response
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/People"
+    SearchResultResponse:
+      description: Search Result Response
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schema/SearchResultResponse"
+
+
+
+
+
