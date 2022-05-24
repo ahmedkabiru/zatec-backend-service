@@ -9,74 +9,74 @@ info:
 tags:
   -  {  name: "chuck" , description: "chuck operations" ,
         externalDocs:{
-               description: "Find out more",
-               url: "https://api.chucknorris.io/jokes/categories"
+          description: "Find out more",
+          url: "https://api.chucknorris.io/jokes/categories"
         }
   }
   -  {  name: "swapi" , description: "Swapi Operations",
-     externalDocs: {
-            description: "Find out more",
-            url: "https://swapi.dev/api/people"
-     }
-   }
+        externalDocs: {
+          description: "Find out more",
+          url: "https://swapi.dev/api/people"
+        }
+  }
   -  { name: "search" , description: "Search Operations"}
 
 paths:
-    "/chuck/categories":
-      get:
-        summary: Get All Jokes Categories
-        description: Fetch all chuck Categories
-        operationId: getAllJokesCategories
-        tags:
-          - chuck
-        responses:
-          200:
-            $ref: "#/components/responses/CategoryResponse"
+  "/chuck/categories":
+    get:
+      summary: Get All Jokes Categories
+      description: Fetch all chuck Categories
+      operationId: getAllJokesCategories
+      tags:
+        - chuck
+      responses:
+        200:
+          $ref: "#/components/responses/CategoryResponse"
 
-    "/chuck/random":
-      get:
-        summary: Get Random Jokes by Category
-        description: Get Random Jokes
-        operationId: getRandomJokesByCategory
-        tags:
-          - chuck
-        parameters:
-          - in: query
-            name: category
-            required: true
-            schema:
-              type: string
-        responses:
-          200:
-            $ref: "#/components/responses/JokesResponse"
+  "/chuck/random":
+    get:
+      summary: Get Random Jokes by Category
+      description: Get Random Jokes
+      operationId: getRandomJokesByCategory
+      tags:
+        - chuck
+      parameters:
+        - in: query
+          name: category
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          $ref: "#/components/responses/JokesResponse"
 
-    "/swapi/people":
-      get:
-        summary: Get All the Star Wars People
-        description: fetch all star wars people from https://swapi.dev/api/people/
-        operationId: getAllStarWarsPeople
-        tags:
-          - swapi
-        responses:
-          200:
-            $ref: "#/components/responses/PeopleResponse"
+  "/swapi/people":
+    get:
+      summary: Get All the Star Wars People
+      description: fetch all star wars people from https://swapi.dev/api/people/
+      operationId: getAllStarWarsPeople
+      tags:
+        - swapi
+      responses:
+        200:
+          $ref: "#/components/responses/PeopleResponse"
 
-    "/search":
-      get:
-        summary: Get Jokes or Star Wars Result
-        description: Search with either Jokes API or Star Wars API
-        operationId: getSearchResult
-        tags:
-          - search
-        parameters:
-          - in: query
-            name: query
-            required: true
-            schema:
-              type: string
-        responses:
-          200:
-            $ref: "#/components/responses/SearchResultResponse"
+  "/search":
+    get:
+      summary: Get Jokes or Star Wars Result
+      description: Search with either Jokes API or Star Wars API
+      operationId: getSearchResult
+      tags:
+        - search
+      parameters:
+        - in: query
+          name: query
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          $ref: "#/components/responses/SearchResultResponse"
 
 components:
   schemas:
@@ -115,7 +115,15 @@ components:
           type: string
         value:
           type: string
-
+    JokesSearchResponse:
+      type: object
+      properties:
+        total:
+          type: integer
+        result:
+          type: array
+          items:
+            $ref: "#/components/schemas/Jokes"
     People:
       type: object
       properties:
@@ -142,9 +150,9 @@ components:
           items:
             type: string
         species:
-           type: array
-           items:
-             type: string
+          type: array
+          items:
+            type: string
         vehicles:
           type: array
           items:
@@ -159,7 +167,19 @@ components:
           type: string
         url:
           type: string
-
+    PeopleResponse:
+      type: object
+      properties:
+        count:
+          type: string
+        next:
+          type: string
+        previous:
+          type: string
+        results:
+          type: array
+          items:
+            $ref: "#/components/schemas/People"
   responses:
     CategoryResponse:
       description: Jokes Category Response
@@ -178,15 +198,10 @@ components:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/People"
+            $ref: "#/components/schemas/PeopleResponse"
     SearchResultResponse:
       description: Search Result Response
       content:
         application/json:
           schema:
             $ref: "#/components/schema/SearchResultResponse"
-
-
-
-
-
