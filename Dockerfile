@@ -1,15 +1,12 @@
-FROM  eclipse-temurin:17-jdk as builder
-WORKDIR extracted
-ADD ./target/*.jar app.jar
-RUN java -Djarmode=layertools -jar app.jar extract
+FROM openjdk:17-oracle
 
-FROM eclipse-temurin:17
-WORKDIR application
-COPY --from=builder extracted/dependencies/ ./
-COPY --from=builder extracted/spring-boot-loader/ ./
-COPY --from=builder extracted/snapshot-dependencies/ ./
-COPY --from=builder extracted/application/ ./
+# Add Maintainer Info
+LABEL maintainer="opeyemi.kabiru@yahoo.com"
 
-EXPOSE 8080
+ARG JAR_FILE=target/zatec-backend-service.jar
 
-ENTRYPOINT ["java", "org.springframework.boot.loader.JarLauncher"]
+WORKDIR /opt/app
+
+COPY ${JAR_FILE} app.jar
+
+ENTRYPOINT ["java","-jar","app.jar"]
