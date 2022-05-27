@@ -12,7 +12,7 @@ public class CorsGlobalConfiguration implements WebFluxConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry corsRegistry) {
         corsRegistry.addMapping("/**")
-                .allowedOrigins("http://localhost:3000")
+                .allowedOrigins("http://localhost:3000","https://zatec-backend-service.herokuapp.com")
                 .allowedMethods("PUT","POST","GET","OPTIONS")
                 .maxAge(3600);
     }
