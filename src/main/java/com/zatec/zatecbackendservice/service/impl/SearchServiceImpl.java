@@ -9,7 +9,6 @@ import com.zatec.zatecbackendservice.model.SearchResultResponseMetaDataDto;
 import com.zatec.zatecbackendservice.service.ChuckService;
 import com.zatec.zatecbackendservice.service.SearchService;
 import com.zatec.zatecbackendservice.service.SwapiService;
-import io.netty.util.internal.StringUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;

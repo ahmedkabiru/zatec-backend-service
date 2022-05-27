@@ -2,7 +2,6 @@ package com.zatec.zatecbackendservice.service.impl;
 
 import com.zatec.zatecbackendservice.model.JokesDto;
 import com.zatec.zatecbackendservice.model.JokesSearchResponseDto;
-import com.zatec.zatecbackendservice.model.PeopleDto;
 import com.zatec.zatecbackendservice.service.ChuckService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
