@@ -15,7 +15,7 @@ public class SwapiServiceImpl implements SwapiService {
     private final WebClient webClient;
 
 
-    public SwapiServiceImpl(WebClient.Builder webClient,  @Value("${webClient.baseUrl.chuck}") String baseUrl) {
+    public SwapiServiceImpl(WebClient.Builder webClient,  @Value("${webClient.baseUrl.swapi}") String baseUrl) {
         this.webClient = webClient
                 .baseUrl(baseUrl)
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
