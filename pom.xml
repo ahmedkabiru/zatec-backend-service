@@ -112,7 +112,6 @@
                         <configuration>
                             <inputSpec>${project.basedir}/src/main/resources/openapi_spec.yaml</inputSpec>
                             <generatorName>spring</generatorName>
-
                             <modelNameSuffix>Dto</modelNameSuffix>
                             <generateApiTests>false</generateApiTests>
                             <generateModelTests>false</generateModelTests>
@@ -126,6 +125,7 @@
                                 <skipDefaultInterface>true</skipDefaultInterface>
                                 <dateLibrary>java8</dateLibrary>
                                 <reactive>true</reactive>
+                                <additionalModelTypeAnnotations>@lombok.Builder; @lombok.NoArgsConstructor; @lombok.AllArgsConstructor</additionalModelTypeAnnotations>
                             </configOptions>
                         </configuration>
                     </execution>
