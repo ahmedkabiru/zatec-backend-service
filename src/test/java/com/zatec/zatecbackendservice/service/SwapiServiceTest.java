@@ -8,6 +8,7 @@ import com.zatec.zatecbackendservice.service.impl.ChuckServiceImpl;
 import com.zatec.zatecbackendservice.service.impl.SwapiServiceImpl;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,8 +24,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class SwapiServiceTest {
@@ -34,17 +34,16 @@ class SwapiServiceTest {
 
     MockWebServer mockWebServer;
 
+    PeopleDto peopleDto;
+
+    PeopleDto peopleDto2;
+
     @BeforeEach
     void setUp() throws IOException {
         mockWebServer = new MockWebServer();
         mockWebServer.start();
         objectMapper = new ObjectMapper();
-        swapiService = new SwapiServiceImpl(WebClient.builder(),mockWebServer.url("/").toString());
-    }
-
-    @Test
-    void getAllStarWarsPeople() throws JsonProcessingException {
-        PeopleDto peopleDto = PeopleDto.builder()
+        peopleDto = PeopleDto.builder()
                 .name("Luke Skywalker")
                 .height("172")
                 .mass("77")
@@ -54,7 +53,7 @@ class SwapiServiceTest {
                 .birthYear("19BBY")
                 .gender("male")
                 .build();
-        PeopleDto peopleDto2 = PeopleDto.builder()
+         peopleDto2 = PeopleDto.builder()
                 .name("C-3PO")
                 .height("167")
                 .mass("75")
@@ -64,6 +63,11 @@ class SwapiServiceTest {
                 .birthYear("112BBY")
                 .gender("n/a")
                 .build();
+        swapiService = new SwapiServiceImpl(WebClient.builder(),mockWebServer.url("/").toString());
+    }
+
+    @Test
+    void getAllStarWarsPeople() throws JsonProcessingException {
         PeopleResponseDto peopleResponseDto =  new PeopleResponseDto();
         peopleResponseDto.setCount("82");
         peopleResponseDto.setNext("https://swapi.dev/api/people/?page=2");
@@ -87,7 +91,28 @@ class SwapiServiceTest {
     }
 
     @Test
-    void searchStarWarsPeople() {
+    void searchStarWarsPeople() throws JsonProcessingException {
+        PeopleResponseDto peopleResponseDto =  new PeopleResponseDto();
+        peopleResponseDto.setCount("1");
+        peopleResponseDto.setNext(null);
+        peopleResponseDto.setPrevious(null);
+        peopleResponseDto.setResults(List.of(peopleDto));
+        mockWebServer.enqueue(new MockResponse()
+                .setResponseCode(HttpStatus.OK.value())
+                .addHeader(HttpHeaders.CONTENT_TYPE,MediaType.APPLICATION_JSON_VALUE)
+                .setBody(objectMapper.writeValueAsString(peopleResponseDto))
+        );
+        Mono<PeopleResponseDto> peoples = swapiService.searchStarWarsPeople("Luke");
+        StepVerifier.create(peoples)
+                .assertNext(people -> {
+                    assertThat(people.getResults(), instanceOf(List.class));
+                    assertThat(people.getResults().size(), equalTo(1));
+                    assertThat(
+                            people.getResults(),
+                            hasItems(
+                                    Matchers.hasProperty("name", is("Luke Skywalker"))
+                            ));
+                }).verifyComplete();
     }
 
     @AfterEach
