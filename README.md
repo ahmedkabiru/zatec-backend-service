@@ -43,6 +43,16 @@ and run container with
 docker  container run -d  -p 8080:8080 zatec-backend-service
 ``` 
 
+## Monitoring and Metrics
+Actuator endpoint expose the following operation:
+
+- **/metrics** Shows “metrics” information for the current application.
+
+- **/health** Shows application health information.
+
+- **/info** Displays arbitrary application info.
+
+All the actuator endpoints is available via <http://localhost:8080/actuator>.
 
 ## License
 
