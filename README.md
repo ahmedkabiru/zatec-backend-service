@@ -1,6 +1,6 @@
 # zatec-backend-service
 
-This backend service aims to integrate with  Chuck Norris API and the Star Wars API to;
+This backend service integrate with  Chuck Norris API and the Star Wars API to;
 1. Fetch All Jokes Categories
 2. Fetch All Star Wars People
 3. Search for jokes and People.
